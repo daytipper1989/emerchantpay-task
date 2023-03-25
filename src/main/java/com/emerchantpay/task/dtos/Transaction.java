@@ -1,8 +1,10 @@
 package com.emerchantpay.task.dtos;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Transaction {
 	
 	private Long id;
