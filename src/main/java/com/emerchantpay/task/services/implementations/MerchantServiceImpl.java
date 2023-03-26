@@ -1,6 +1,7 @@
 package com.emerchantpay.task.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.emerchantpay.task.dtos.MerchantDto;
+import com.emerchantpay.task.models.Merchant;
 import com.emerchantpay.task.repositories.MerchantRepository;
 import com.emerchantpay.task.services.interfaces.MerchantService;
 
@@ -27,5 +29,21 @@ public class MerchantServiceImpl implements MerchantService {
 		).collect(Collectors.toList());
 		
 		return merchants;
+	}
+
+	@Override
+	public void delete(Long id) {
+		merchantRepository.deleteById(id);
+	}
+
+	@Override
+	public MerchantDto update(MerchantDto merchantDto) {
+		Optional<Merchant> merchantOptional = merchantRepository.findById(merchantDto.getId());
+		if(merchantOptional.isPresent()) {
+			Merchant merchant = merchantOptional.get();
+			BeanUtils.copyProperties(merchantDto, merchant);
+			merchantRepository.save(merchant);
+		}
+		return merchantDto;
 	}
 }

@@ -63,7 +63,6 @@ public class RakeServiceImpl implements RakeService {
 	                	merchant.setTransactions(null);
 	                }
 	                merchantRepository.save(merchant);
-	                System.out.println(merchant);
 	            }
 	        }
 	    }
