@@ -2,8 +2,8 @@ package com.emerchantpay.task.services.interfaces;
 
 import java.util.List;
 
-import com.emerchantpay.task.dtos.Transaction;
+import com.emerchantpay.task.dtos.TransactionDto;
 
 public interface TransactionService {
-	public List<Transaction> getAll();
+	public List<TransactionDto> getAll();
 }

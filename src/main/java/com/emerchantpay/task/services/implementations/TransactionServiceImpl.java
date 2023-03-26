@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.emerchantpay.task.dtos.Transaction;
+import com.emerchantpay.task.dtos.TransactionDto;
 import com.emerchantpay.task.repositories.TransactionRepository;
 import com.emerchantpay.task.services.interfaces.TransactionService;
 
@@ -18,9 +18,9 @@ public class TransactionServiceImpl implements TransactionService{
 	private TransactionRepository transactionRepository;
 	
 	@Override
-	public List<Transaction> getAll() {
-		List<Transaction> transactions = transactionRepository.findAll().stream().map(model -> {
-				Transaction transaction = Transaction.builder().build();
+	public List<TransactionDto> getAll() {
+		List<TransactionDto> transactions = transactionRepository.findAll().stream().map(model -> {
+				TransactionDto transaction = TransactionDto.builder().build();
 				BeanUtils.copyProperties(model, transaction);
 				return transaction;
 			}

@@ -7,7 +7,7 @@ import com.emerchantpay.task.models.Transaction;
 
 @Component
 public class TransactionFactory {
-	public Transaction getModel(com.emerchantpay.task.dtos.Transaction dto) {
+	public Transaction getModel(com.emerchantpay.task.dtos.TransactionDto dto) {
 		Transaction transaction = new Transaction();
 		BeanUtils .copyProperties(dto, transaction);
 		return transaction;

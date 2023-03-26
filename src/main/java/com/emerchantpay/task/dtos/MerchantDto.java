@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Merchant {
+public class MerchantDto {
 	
 	private Long id;
 	
@@ -21,6 +21,6 @@ public class Merchant {
 	
 	private double totalTransactionSum;
 	
-	private List<Transaction> transactions;
+	private List<TransactionDto> transactions;
 	
 }

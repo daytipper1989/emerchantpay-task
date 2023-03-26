@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Transaction {
+public class TransactionDto {
 	
 	private Long id;
 	
@@ -19,8 +19,8 @@ public class Transaction {
 
 	private String customerPhone;
 
-	private Transaction reference;
+	private TransactionDto reference;
 	
-	private Merchant merchant;
+	private MerchantDto merchant;
 	
 }

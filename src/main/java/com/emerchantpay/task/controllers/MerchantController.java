@@ -8,18 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.emerchantpay.task.dtos.TransactionDto;
-import com.emerchantpay.task.services.interfaces.TransactionService;
+import com.emerchantpay.task.dtos.MerchantDto;
+import com.emerchantpay.task.services.interfaces.MerchantService;
 
 @RestController
-public class TransactionController {
+public class MerchantController {
 	
 	@Autowired
-	private TransactionService transactionService;
+	private MerchantService merchantService;
 	
-	@GetMapping("transactions")
-    public ResponseEntity<List<TransactionDto>> getAll() {
+	@GetMapping("merchants")
+    public ResponseEntity<List<MerchantDto>> getAll() {
 
-        return new ResponseEntity<>(transactionService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(merchantService.getAll(), HttpStatus.OK);
     }
 }

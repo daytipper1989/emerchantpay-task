@@ -7,5 +7,5 @@ import com.emerchantpay.task.models.Merchant;
 
 @Repository
 public interface MerchantRepository extends JpaRepository<Merchant, Long> {
-
+	Merchant findByEmail(String email);
 }

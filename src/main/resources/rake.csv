@@ -1,0 +1,5 @@
+name,description,email,status,totalTransactionSum
+John,I created the band,john@beatles.com,active,0
+Paul,I am a Sir!,paul@beatles.com,active,0
+George,I am the youngest,george@beatles.com,active,0
+Ringo,I am the drummer,ringo@beatles.com,active,0
