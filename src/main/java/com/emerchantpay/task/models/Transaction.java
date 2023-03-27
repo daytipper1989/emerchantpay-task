@@ -40,4 +40,6 @@ public class Transaction {
 	@ManyToOne
 	private Merchant merchant;
 	
+	private String type; //(authorize, charge, refund, reversal)
+	
 }
