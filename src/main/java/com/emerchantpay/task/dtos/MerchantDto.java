@@ -2,8 +2,6 @@ package com.emerchantpay.task.dtos;
 
 import java.util.List;
 
-import com.emerchantpay.task.dtos.enums.TransactionTypeDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

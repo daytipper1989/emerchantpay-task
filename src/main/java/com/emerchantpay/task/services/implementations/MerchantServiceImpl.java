@@ -12,8 +12,6 @@ import com.emerchantpay.task.dtos.MerchantDto;
 import com.emerchantpay.task.models.Merchant;
 import com.emerchantpay.task.repositories.MerchantRepository;
 import com.emerchantpay.task.services.interfaces.MerchantService;
-import com.emerchantpay.task.validations.exceptions.MerchantDoesNotExistException;
-import com.emerchantpay.task.validations.exceptions.MerchantHasTransactionException;
 import com.emerchantpay.task.validations.interfaces.MerchantValidation;
 
 @Service
@@ -38,7 +36,7 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 
 	@Override
-	public void delete(Long id) throws MerchantDoesNotExistException, MerchantHasTransactionException {
+	public void delete(Long id) {
 		merchantValidation.exists(id);
 		merchantValidation.hasTransaction(id);
 		merchantRepository.deleteById(id);

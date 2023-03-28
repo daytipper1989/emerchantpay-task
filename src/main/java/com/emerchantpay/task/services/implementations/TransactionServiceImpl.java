@@ -17,6 +17,7 @@ import com.emerchantpay.task.models.Transaction;
 import com.emerchantpay.task.models.factories.TransactionFactory;
 import com.emerchantpay.task.repositories.TransactionRepository;
 import com.emerchantpay.task.services.interfaces.TransactionService;
+import com.emerchantpay.task.validations.interfaces.TransactionValidation;
 
 @Service
 public class TransactionServiceImpl implements TransactionService{
@@ -26,6 +27,9 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	@Autowired
 	private TransactionRepository transactionRepository;
+	
+	@Autowired
+	private TransactionValidation transactionValidation;
 	
 	@Value("${transaction.status.approved}")
 	private String approvedTransactionStatus;
@@ -62,11 +66,25 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	@Override
 	public TransactionDto apply(TransactionDto transactionDto) {
+		TransactionTypeDto type = transactionDto.getType();
+		
+		transactionValidation.validateEmail(transactionDto.getCustomerEmail());
+		transactionValidation.validateUuid(transactionDto.getUuid());
+		
+		if(type == TransactionTypeDto.AUTHORIZE || type == TransactionTypeDto.CHARGE || type == TransactionTypeDto.REFUND) {
+			transactionValidation.validateHasAmount(transactionDto.getAmount());
+		}
+		else {
+			transactionDto.setAmount(0.0d);
+		}
+		
 		Transaction transaction = transactionFactory.getModel(transactionDto);
 		transaction.setType(transactionDto.getType().toString());
 		transaction.setStatus(approvedTransactionStatus);
 		Merchant merchant = new Merchant();
-		merchant.setId(transactionDto.getMerchant().getId());
+		if(transactionDto.getMerchant() != null) {
+			merchant.setId(transactionDto.getMerchant().getId());
+		}
 		transaction.setMerchant(merchant);
 		transactionRepository.save(transaction);
 		BeanUtils.copyProperties(transaction, transactionDto);
