@@ -15,7 +15,6 @@ import com.emerchantpay.task.dtos.enums.TransactionTypeDto;
 import com.emerchantpay.task.models.Merchant;
 import com.emerchantpay.task.models.Transaction;
 import com.emerchantpay.task.models.factories.TransactionFactory;
-import com.emerchantpay.task.repositories.MerchantRepository;
 import com.emerchantpay.task.repositories.TransactionRepository;
 import com.emerchantpay.task.services.interfaces.TransactionService;
 

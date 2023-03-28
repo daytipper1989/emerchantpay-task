@@ -31,8 +31,8 @@ public class MerchantController {
     public ResponseEntity<Long> deleteMerchant(@PathVariable Long id) {
 
 		merchantService.delete(id);
-
-	    return new ResponseEntity<>(id, HttpStatus.OK);
+		
+		return new ResponseEntity<>(id, HttpStatus.OK);
     }
 	
 	@PutMapping("/update/merchant")
