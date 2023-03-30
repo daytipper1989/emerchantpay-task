@@ -1,13 +1,10 @@
 package com.emerchantpay.task.models;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,8 +30,5 @@ public class Merchant {
 	
 	@Column(name="total_transaction_sum")
 	private double totalTransactionSum;
-	
-	@OneToMany
-	private List<Transaction> transactions;
 	
 }

@@ -1,7 +1,5 @@
 package com.emerchantpay.task.dtos;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +22,5 @@ public class MerchantDto {
 	private String status; //active or inactive
 	
 	private double totalTransactionSum;
-	
-	private List<TransactionDto> transactions;
 	
 }

@@ -1,5 +1,9 @@
 package com.emerchantpay.task.models;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +24,9 @@ public class Transaction {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@CreationTimestamp
+	private Date creationDateTime;
 	
 	@Column(unique=true)
 	private String uuid;

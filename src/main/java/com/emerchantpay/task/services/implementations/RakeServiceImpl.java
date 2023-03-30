@@ -60,7 +60,6 @@ public class RakeServiceImpl implements RakeService {
 	                	Long id = merchant.getId();
 	                	BeanUtils.copyProperties(merchantDto, merchant);
 	                	merchant.setId(id);
-	                	merchant.setTransactions(null);
 	                }
 	                merchantRepository.save(merchant);
 	            }

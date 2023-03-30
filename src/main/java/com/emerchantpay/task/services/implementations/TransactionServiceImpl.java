@@ -1,5 +1,6 @@
 package com.emerchantpay.task.services.implementations;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,6 +50,9 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	@Value("${transaction.status.error}")
 	private String errorTransactionStatus;
+	
+	@Value("${old.transacions.duration}")
+	private Long oldTransactionsDuration;
 	
 	
 	@Override
@@ -135,12 +139,13 @@ public class TransactionServiceImpl implements TransactionService{
 		}
 		else {
 			// TODO
-			//throw new TransactionRefernceNotFoundException(); 
+			//throw new TransactionNotFoundException(); 
 		}
 	}
 
 	@Scheduled(fixedRateString = "${fixedRate.in.milliseconds}")
 	public void scheduleFixedRateTask() {
-	    //System.out.println("Fixed rate task - " + System.currentTimeMillis() / 1000);
+		List<Transaction> transactions = transactionRepository.findAllWithCreationDateTimeBefore(new Date(System.currentTimeMillis() - oldTransactionsDuration));
+		transactionRepository.deleteAll(transactions);
 	}
 }

@@ -56,7 +56,7 @@ class TaskApplicationTests {
 		Transaction transaction = new Transaction();
 		Merchant merchant2 = new Merchant();
 		merchant2.setId(2L);
-		merchant2.setTransactions(Arrays.asList(transaction));
+		//merchant2.setTransactions(Arrays.asList(transaction));
 		when(merchantRepository.findById(2L)).thenReturn(Optional.ofNullable(merchant2));
 		
 		when(transactionRepository.findByUuid("UUID1")).thenReturn(Optional.of(transaction));
