@@ -6,8 +6,10 @@ const Merchant = () => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [merchants, setMerchants] = useState([]);
+    var credentials = btoa("username:password");
+    var auth = { "Authorization" : `Basic ${credentials}` };
     useEffect(() => {
-        fetch("http://localhost:8080/merchants")
+        fetch("http://localhost:8080/merchants", {headers: auth })
             .then(res => res.json())
             .then(
                 (data) => {
