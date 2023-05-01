@@ -22,6 +22,7 @@ import com.emerchantpay.task.models.factories.TransactionFactory;
 import com.emerchantpay.task.repositories.TransactionRepository;
 import com.emerchantpay.task.services.interfaces.MerchantService;
 import com.emerchantpay.task.services.interfaces.TransactionService;
+import com.emerchantpay.task.validations.exceptions.TransactionNotFoundException;
 import com.emerchantpay.task.validations.interfaces.TransactionValidation;
 
 @Service
@@ -138,8 +139,7 @@ public class TransactionServiceImpl implements TransactionService{
 			transactionRepository.save(transaction);
 		}
 		else {
-			// TODO
-			//throw new TransactionNotFoundException(); 
+			throw new TransactionNotFoundException(); 
 		}
 	}
 
