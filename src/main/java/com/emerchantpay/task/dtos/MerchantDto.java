@@ -23,4 +23,6 @@ public class MerchantDto {
 	
 	private double totalTransactionSum;
 	
+	private boolean admin;
+	
 }

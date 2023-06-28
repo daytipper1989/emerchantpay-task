@@ -1,5 +1,5 @@
-name,description,email,status,totalTransactionSum
-John,I created the band,john@beatles.com,active,0
-Paul,I am a Sir!,paul@beatles.com,active,0
-George,I am the youngest,george@beatles.com,active,0
-Ringo,I am the drummer,ringo@beatles.com,active,0
+name,description,email,status,totalTransactionSum,adminstrator,password
+John,I created the band,john@beatles.com,active,0,true,john
+Paul,I am a Sir!,paul@beatles.com,active,0,true,paul
+George,I am the youngest,george@beatles.com,inactive,0,false,george
+Ringo,I am the drummer,ringo@beatles.com,active,0,false,ringo
