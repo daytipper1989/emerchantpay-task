@@ -4,12 +4,18 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.emerchantpay.task.models.Merchant;
+import com.emerchantpay.task.repositories.MerchantRepository;
 import com.emerchantpay.task.services.interfaces.JwtService;
 
 import io.jsonwebtoken.Claims;
@@ -23,6 +29,9 @@ public class JwtServiceImpl implements JwtService {
 
 	@Value("${token.signing.key}")
 	private String jwtSigningKey;
+	
+	@Autowired
+	MerchantRepository merchantRepository;
 
 	@Override
 	public String extractUserName(String token) {
@@ -67,5 +76,13 @@ public class JwtServiceImpl implements JwtService {
 	private Key getSigningKey() {
 		byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
 		return Keys.hmacShaKeyFor(keyBytes);
+	}
+
+	@Override
+	public Merchant getLoggedInUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Optional<Merchant> merchantOp = merchantRepository.findByEmail(currentPrincipalName);
+		return merchantOp.get();
 	}
 }

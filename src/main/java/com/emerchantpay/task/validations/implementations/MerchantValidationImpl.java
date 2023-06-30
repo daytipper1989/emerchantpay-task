@@ -12,6 +12,7 @@ import com.emerchantpay.task.repositories.MerchantRepository;
 import com.emerchantpay.task.repositories.TransactionRepository;
 import com.emerchantpay.task.validations.exceptions.MerchantDoesNotExistException;
 import com.emerchantpay.task.validations.exceptions.MerchantHasTransactionException;
+import com.emerchantpay.task.validations.exceptions.NotAnAdminException;
 import com.emerchantpay.task.validations.interfaces.MerchantValidation;
 
 @Service
@@ -37,6 +38,13 @@ public class MerchantValidationImpl implements MerchantValidation{
 		
 		if(! (transactions== null || transactions.isEmpty())) {
 			throw new MerchantHasTransactionException();
+		}
+	}
+
+	@Override
+	public void isAdmin(Merchant merchant) throws NotAnAdminException {
+		if(!merchant.isAdmin()) {
+			throw new NotAnAdminException();
 		}
 	}
 
