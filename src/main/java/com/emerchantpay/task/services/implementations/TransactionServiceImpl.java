@@ -114,6 +114,11 @@ public class TransactionServiceImpl implements TransactionService {
 		} else {
 			transactionDto.setAmount(0.0d);
 		}
+		
+		if (type == TransactionTypeDto.REVERSAL
+				|| type == TransactionTypeDto.REFUND) {
+			transactionValidation.validateReferenceTrasaction(transactionDto);
+		} 
 
 		Transaction transaction = transactionFactory.getModel(transactionDto);
 		transaction.setType(transactionDto.getType().toString());
@@ -166,6 +171,7 @@ public class TransactionServiceImpl implements TransactionService {
 			Transaction transaction = transactionOptional.get();
 			transaction.setStatus(status);
 			transactionRepository.save(transaction);
+			BeanUtils.copyProperties(transaction, transactionDto);
 		} else {
 			throw new TransactionNotFoundException();
 		}
