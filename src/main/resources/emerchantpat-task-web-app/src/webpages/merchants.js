@@ -1,13 +1,12 @@
-import React, { useState, useEffect }  from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';  
+import React, { useState, useEffect }  from 'react';  
 import {Table } from 'react-bootstrap';
 
 const Merchant = () => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [merchants, setMerchants] = useState([]);
-    var credentials = btoa("username:password");
-    var auth = { "Authorization" : `Basic ${credentials}` };
+    var token = localStorage.getItem('token');
+    var auth = { "Authorization" : `Bearer ${token}` };
     useEffect(() => {
         fetch("http://localhost:8080/merchants", {headers: auth })
             .then(res => res.json())
@@ -43,7 +42,7 @@ if (error) {
                     <tbody>
                         {
                         merchants.map(merchant => (
-                            <tr>
+                            <tr key={merchant.id}>
                                 <td>{merchant.id}</td>
                                 <td>{merchant.name}</td>
                                 <td>{merchant.description}</td>
