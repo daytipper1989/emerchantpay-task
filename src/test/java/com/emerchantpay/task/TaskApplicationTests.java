@@ -32,6 +32,7 @@ import com.emerchantpay.task.services.interfaces.TransactionService;
 import com.emerchantpay.task.validations.exceptions.EmailInvalidException;
 import com.emerchantpay.task.validations.exceptions.MerchantDoesNotExistException;
 import com.emerchantpay.task.validations.exceptions.MerchantHasTransactionException;
+import com.emerchantpay.task.validations.exceptions.ReferenceTransactionStatusInvalidException;
 import com.emerchantpay.task.validations.exceptions.ReferenceTransactionTypeInvalidException;
 import com.emerchantpay.task.validations.exceptions.TransactionHasNoAmountException;
 import com.emerchantpay.task.validations.exceptions.TransactionUuidAlreadyExistsException;
@@ -81,8 +82,16 @@ class TaskApplicationTests {
 		
 		Transaction transaction3 = new Transaction();
 		transaction3.setType("CHARGE");
+		transaction3.setStatus("approved");
 		Transaction transaction4 = new Transaction();
 		transaction4.setType("AUTHORIZE");
+		transaction4.setStatus("approved");
+		Transaction transaction5 = new Transaction();
+		transaction5.setType("CHARGE");
+		transaction5.setStatus("refunded");
+		Transaction transaction6 = new Transaction();
+		transaction6.setType("AUTHORIZE");
+		transaction6.setStatus("reversed");
 		Merchant merchant2 = new Merchant();
 		merchant2.setId(2L);
 		merchant2.setTotalTransactionSum(100d);
@@ -93,6 +102,8 @@ class TaskApplicationTests {
 		when(transactionRepository.findByUuid("UUID2")).thenReturn(Optional.ofNullable(null));
 		when(transactionRepository.findById(3L)).thenReturn(Optional.of(transaction3));
 		when(transactionRepository.findById(4L)).thenReturn(Optional.of(transaction4));
+		when(transactionRepository.findById(5L)).thenReturn(Optional.of(transaction5));
+		when(transactionRepository.findById(6L)).thenReturn(Optional.of(transaction6));
 		when(transactionRepository.findByMerchant_Id(merchant2.getId())).thenReturn(Arrays.asList(transaction3));
 		when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction3);
 	}
@@ -307,7 +318,7 @@ class TaskApplicationTests {
 	}
 	
 	@Test
-	void applyInValidReferenceforRefundTransaction() {
+	void applyInValidTypeReferenceforRefundTransaction() {
 		TransactionDto transaction = TransactionDto.builder()
 		.amount(1d)
 		.customerEmail("customer@email.com")
@@ -330,7 +341,7 @@ class TaskApplicationTests {
 	}
 	
 	@Test
-	void applyInValidReferenceforReversalTransaction() {
+	void applyInValidTypeReferenceforReversalTransaction() {
 		TransactionDto transaction = TransactionDto.builder()
 		.customerEmail("customer@email.com")
 		.customerPhone("123456")
@@ -345,6 +356,48 @@ class TaskApplicationTests {
 			assert(false);
 		} catch(Exception e) {
 			assert(e instanceof ReferenceTransactionTypeInvalidException);
+		}
+	}
+	
+	@Test
+	void applyInValidStatusReferenceforRefundTransaction() {
+		TransactionDto transaction = TransactionDto.builder()
+		.amount(1d)
+		.customerEmail("customer@email.com")
+		.customerPhone("123456")
+		.type(TransactionTypeDto.REFUND)
+		.uuid("UUID2")
+		.reference(
+				TransactionDto.builder().id(5L).build()
+				)
+		.merchant(
+				MerchantDto.builder().id(2L).build()
+			).build();
+		
+		try {
+			transactionService.apply(transaction);
+			assert(false);
+		} catch(Exception e) {
+			assert(e instanceof ReferenceTransactionStatusInvalidException);
+		}
+	}
+	
+	@Test
+	void applyInValidStatusReferenceforReversalTransaction() {
+		TransactionDto transaction = TransactionDto.builder()
+		.customerEmail("customer@email.com")
+		.customerPhone("123456")
+		.type(TransactionTypeDto.REVERSAL)
+		.uuid("UUID2")
+		.reference(
+				TransactionDto.builder().id(6L).build()
+				).build();
+		
+		try {
+			transactionService.apply(transaction);
+			assert(false);
+		} catch(Exception e) {
+			assert(e instanceof ReferenceTransactionStatusInvalidException);
 		}
 	}
 }
