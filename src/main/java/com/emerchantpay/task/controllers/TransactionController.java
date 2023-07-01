@@ -27,7 +27,6 @@ public class TransactionController {
 	
 	@PostMapping("/apply/transaction")
 	public ResponseEntity<TransactionDto> apply(@RequestBody TransactionDto transactionDto) {
-		System.out.println("transactionDto: " + transactionDto);
         return new ResponseEntity<>(transactionService.apply(transactionDto), HttpStatus.OK);
     }
 }
