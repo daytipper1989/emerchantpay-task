@@ -101,8 +101,6 @@ public class TransactionServiceImpl implements TransactionService {
 	@Transactional
 	public TransactionDto apply(TransactionDto transactionDto) {
 
-		Merchant loggedInUser = jwtService.getLoggedInUser();
-
 		TransactionTypeDto type = transactionDto.getType();
 
 		transactionValidation.validateEmail(transactionDto.getCustomerEmail());
@@ -115,8 +113,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionDto.setAmount(0.0d);
 		}
 		
-		if (type == TransactionTypeDto.REVERSAL
-				|| type == TransactionTypeDto.REFUND) {
+		if (type == TransactionTypeDto.REVERSAL|| type == TransactionTypeDto.REFUND) {
 			transactionValidation.validateReferenceTrasaction(transactionDto);
 		} 
 
@@ -124,16 +121,8 @@ public class TransactionServiceImpl implements TransactionService {
 		transaction.setType(transactionDto.getType().toString());
 		transaction.setStatus(approvedTransactionStatus);
 
-		if (loggedInUser.isAdmin()) { // if user is an admin, he can choose any merchant
-			Merchant merchant = new Merchant();
-			if (transactionDto.getMerchant() != null) {
-				merchant.setId(transactionDto.getMerchant().getId());
-			}
-			transaction.setMerchant(merchant);
-
-		} else { // not an admin, the transaction must be in logged in user's username
-			transaction.setMerchant(loggedInUser);
-		}
+		
+		assignMerchant(transaction, transactionDto);
 
 		transactionRepository.save(transaction);
 
@@ -161,7 +150,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Transactional
-	private void updateReferenceTransactionStatus(TransactionDto transactionDto, String status) {
+	public void updateReferenceTransactionStatus(TransactionDto transactionDto, String status) {
 
 		Objects.requireNonNull(transactionDto);
 
@@ -179,9 +168,22 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Scheduled(fixedRateString = "${fixedRate.in.milliseconds}")
 	public void scheduleFixedRateTask() {
-		// List<Transaction> transactions =
-		// transactionRepository.findAllWithCreationDateTimeBefore(new
-		// Date(System.currentTimeMillis() - oldTransactionsDuration));
-		// transactionRepository.deleteAll(transactions);
+		List<Transaction> transactions = transactionRepository.findAllWithCreationDateTimeBefore(new Date(System.currentTimeMillis() - oldTransactionsDuration));
+		transactionRepository.deleteAll(transactions);
+	}
+	
+	private void assignMerchant(Transaction transaction, TransactionDto transactionDto) {
+		Merchant loggedInUser = jwtService.getLoggedInUser();
+		
+		if (loggedInUser.isAdmin()) { // if user is an admin, he can choose any merchant
+			Merchant merchant = new Merchant();
+			if (transactionDto.getMerchant() != null) {
+				merchant.setId(transactionDto.getMerchant().getId());
+			}
+			transaction.setMerchant(merchant);
+
+		} else { // not an admin, the transaction must be in logged in user's username
+			transaction.setMerchant(loggedInUser);
+		}
 	}
 }

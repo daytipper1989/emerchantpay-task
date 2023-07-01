@@ -24,8 +24,6 @@ public class TaskApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void runRake() throws CsvValidationException, IOException, IllegalAccessException, InvocationTargetException {
-		System.out.println("Loading data...");
 		rakeService.run();
-	    System.out.println("Data loaded...");
 	}
 }

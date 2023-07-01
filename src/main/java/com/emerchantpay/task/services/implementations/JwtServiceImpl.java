@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.emerchantpay.task.models.Merchant;
 import com.emerchantpay.task.repositories.MerchantRepository;
 import com.emerchantpay.task.services.interfaces.JwtService;
+import com.emerchantpay.task.validations.exceptions.MerchantDoesNotExistException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -83,6 +84,9 @@ public class JwtServiceImpl implements JwtService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		Optional<Merchant> merchantOp = merchantRepository.findByEmail(currentPrincipalName);
+		if(merchantOp.isEmpty()) {
+			throw new MerchantDoesNotExistException();
+		}
 		return merchantOp.get();
 	}
 }

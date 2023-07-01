@@ -77,7 +77,7 @@ public class Merchant implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return "active".equals(status) ? true : false;
+		return "active".equals(status);
 	}
 
 }
