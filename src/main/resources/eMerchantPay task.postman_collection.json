@@ -6,8 +6,206 @@
 	},
 	"item": [
 		{
+			"name": "Sign in 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"john_token\", res.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"john@beatles.com\",\r\n    \"password\":\"john\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"paul_token\", res.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"paul@beatles.com\",\r\n    \"password\":\"paul\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in 3 - inactive user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"george_token\", res.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"george@beatles.com\",\r\n    \"password\":\"george\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"ringo_token\", res.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ringo@beatles.com\",\r\n    \"password\":\"ringo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get all transactions",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{john_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -25,119 +223,18 @@
 			"response": []
 		},
 		{
-			"name": "get all merchants",
+			"name": "get all merchants admin",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/merchants",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"merchants"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete merchant - 1",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/delete/merchant/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"delete",
-						"merchant",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete merchant - 2 has transactions",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/delete/merchant/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"delete",
-						"merchant",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete merchant - 1999 not found",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/delete/merchant/1999",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"delete",
-						"merchant",
-						"1999"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update merchant - 3",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"George\",\r\n    \"description\": \"I am also the quitest\",\r\n    \"email\": \"george@beatles.com\",\r\n    \"status\": \"active\",\r\n    \"totalTransactionSum\": 0.0,\r\n    \"transactions\": null\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{john_token}}",
+							"type": "string"
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/update/merchant",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"update",
-						"merchant"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all merchants",
-			"request": {
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -155,8 +252,47 @@
 			"response": []
 		},
 		{
-			"name": "apply transaction",
+			"name": "get all merchants non admin",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ringo_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/merchants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "apply transaction non admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ringo_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -184,8 +320,222 @@
 			"response": []
 		},
 		{
+			"name": "apply transaction admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{john_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\":\"AUTHORIZE\",\r\n    \"uuid\":\"{{$guid}}\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/apply/transaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apply",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete merchant - 1",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{john_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/delete/merchant/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete",
+						"merchant",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete merchant - 2 has transactions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/delete/merchant/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete",
+						"merchant",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all merchants",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/merchants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete merchant - 1999 not found",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/delete/merchant/1999",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete",
+						"merchant",
+						"1999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update merchant - 3",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"George\",\r\n    \"description\": \"I am also the quitest\",\r\n    \"email\": \"george@beatles.com\",\r\n    \"status\": \"active\",\r\n    \"totalTransactionSum\": 0.0,\r\n    \"transactions\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/update/merchant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"update",
+						"merchant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "apply transaction - 0 amount",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -215,11 +565,21 @@
 		{
 			"name": "apply transaction - repeated UUID",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"type\":\"AUTHORIZE\",\r\n    \"uuid\":\"c0ec5479-2fba-427f-9f5e-107e9a6bc2c8\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    }\r\n}",
+					"raw": "{\r\n    \"type\":\"AUTHORIZE\",\r\n    \"uuid\":\"1d43c25d-f918-4b81-8554-267d7939a225\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -244,6 +604,16 @@
 		{
 			"name": "apply transaction - invalid email",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -273,6 +643,16 @@
 		{
 			"name": "apply transaction - CHARGE",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -302,6 +682,16 @@
 		{
 			"name": "apply transaction - ANOTHER CHARGE",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -331,11 +721,21 @@
 		{
 			"name": "apply transaction - REFUND",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"type\":\"REFUND\",\r\n    \"uuid\":\"{{$guid}}\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    },\r\n    \"reference\":{\r\n        \"id\":\"9\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"type\":\"REFUND\",\r\n    \"uuid\":\"{{$guid}}\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    },\r\n    \"reference\":{\r\n        \"id\":\"3\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -360,6 +760,16 @@
 		{
 			"name": "apply transaction - AUTHORIZE",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -389,11 +799,21 @@
 		{
 			"name": "apply transaction - REVERSE",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"type\":\"REVERSAL\",\r\n    \"uuid\":\"{{$guid}}\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    },\r\n    \"reference\":{\r\n        \"id\":12\r\n    }\r\n}",
+					"raw": "{\r\n    \"type\":\"REVERSAL\",\r\n    \"uuid\":\"{{$guid}}\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    },\r\n    \"reference\":{\r\n        \"id\":1\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -414,19 +834,111 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "apply transaction - merchant user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ringo_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\":\"AUTHORIZE\",\r\n    \"uuid\":\"{{$guid}}\",\r\n    \"amount\":10.5,\r\n    \"customerEmail\":\"customer@email.com\",\r\n    \"customerPhone\":\"+123456789\",\r\n    \"merchant\":{\r\n        \"id\":2\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/apply/transaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apply",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all transactions non admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ringo_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all transactions admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{paul_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
-		"type": "basic",
-		"basic": [
+		"type": "bearer",
+		"bearer": [
 			{
-				"key": "username",
-				"value": "username",
-				"type": "string"
-			},
-			{
-				"key": "password",
-				"value": "password",
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huQGJlYXRsZXMuY29tIiwiaWF0IjoxNjg3OTU5MTY0LCJleHAiOjE2ODc5NjA2MDR9.hGOpEYb9vtAnB5vEXx7mvKO-Ahu1g1zWCflQ7MfX4xk",
 				"type": "string"
 			}
 		]
